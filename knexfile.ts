@@ -13,6 +13,7 @@ const config: Record<string, Knex.Config> = {
     seeds: {
       directory: './db/seeds',
     },
+    useNullAsDefault: true,
   },
   test: {
     client: 'sqlite3',
@@ -26,6 +27,7 @@ const config: Record<string, Knex.Config> = {
     seeds: {
       directory: './db/seeds',
     },
+    useNullAsDefault: true,
   },
 };
 
