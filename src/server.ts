@@ -1,7 +1,8 @@
 import fastify from 'fastify';
 import userRoutes from './routes/users';
 
-const server = fastify({ logger: true });
+const shouldLog = process.env.NODE_ENV !== 'test';
+const server = fastify({ logger: shouldLog });
 
 server.register(userRoutes, { prefix: '/users' });
 
