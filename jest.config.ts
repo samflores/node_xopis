@@ -6,7 +6,8 @@ const config: Config = {
   rootDir: '.',
   testMatch: ['<rootDir>/tests/**/*.test.ts'],
   moduleNameMapper: {
-    '^src/(.*)$': '<rootDir>/src/$1'
+    '^src/(.*)$': '<rootDir>/src/$1',
+    '^tests/(.*)$': '<rootDir>/tests/$1'
   },
 };
 

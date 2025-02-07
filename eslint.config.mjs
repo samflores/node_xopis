@@ -10,7 +10,8 @@ export default tseslint.config(
   {
     rules: {
       '@/semi': ['warn', 'always'],
-      '@/quotes': ['warn', 'single'],
+      '@/quotes': ['warn', 'single', { "avoidEscape": true }],
+      'no-multiple-empty-lines': ['warn', { 'max': 1 }],
     }
   }
 );

@@ -1,6 +1,5 @@
 import type { Knex } from 'knex';
 
-
 const config: Record<string, Knex.Config> = {
   development: {
     client: 'sqlite3',
@@ -15,7 +14,19 @@ const config: Record<string, Knex.Config> = {
       directory: './db/seeds',
     },
   },
-
+  test: {
+    client: 'sqlite3',
+    connection: {
+      filename: ':memory:'
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: './db/migrations',
+    },
+    seeds: {
+      directory: './db/seeds',
+    },
+  },
 };
 
-module.exports = config;
+export default config;

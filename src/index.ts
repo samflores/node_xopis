@@ -1,4 +1,5 @@
 import server from './server';
+import './db';
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
