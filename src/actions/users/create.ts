@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import User from '../../models/User';
 import { UniqueViolationError } from 'objection';
-import User from 'src/models/User';
 
 type Request = FastifyRequest<{ Body: { name: string; email: string } }>;
 
