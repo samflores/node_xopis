@@ -2,16 +2,20 @@
 
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import stylistic from '@stylistic/eslint-plugin';
 
 export default tseslint.config(
   eslint.configs.recommended,
-  tseslint.configs.strict,
-  tseslint.configs.stylistic,
+  tseslint.configs.recommended,
   {
+    plugins: {
+      '@stylistic': stylistic,
+    },
     rules: {
-      '@/semi': ['warn', 'always'],
-      '@/quotes': ['warn', 'single', { "avoidEscape": true }],
-      'no-multiple-empty-lines': ['warn', { 'max': 1 }],
+      '@stylistic/semi': ['warn', 'always'],
+      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
+      '@stylistic/no-multiple-empty-lines': ['warn', { 'max': 1 }],
+      '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
     }
   }
 );
