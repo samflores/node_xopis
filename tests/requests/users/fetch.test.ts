@@ -2,7 +2,7 @@ import 'tests/setup';
 import server from 'src/server';
 import User from 'src/models/User';
 
-describe('SHOW action', () => {
+describe('FETCH action', () => {
   describe('when the user is found', () => {
     it('is successful', async () => {
       const user = await User.query().insert({ name: 'John Doe', email: 'john.doe@email.com' });
