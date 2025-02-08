@@ -41,7 +41,7 @@ describe('CREATE action', () => {
     it('returns a bad request response', async () => {
       const response = await makeRequest(input);
 
-      assertBadRequest(response, /must have required property 'name'/);
+      await assertBadRequest(response, /must have required property 'name'/);
     });
   });
 
@@ -55,7 +55,7 @@ describe('CREATE action', () => {
     it('returns a bad request response', async () => {
       const response = await makeRequest(input);
 
-      assertBadRequest(response, /must have required property 'email'/);
+      await assertBadRequest(response, /must have required property 'email'/);
     });
   });
 
@@ -68,7 +68,7 @@ describe('CREATE action', () => {
 
     it('returns a bad request response', async () => {
       const response = await makeRequest(input);
-      assertBadRequest(response, /must match format "email"/);
+      await assertBadRequest(response, /must match format "email"/);
     });
   });
 
@@ -91,7 +91,7 @@ describe('CREATE action', () => {
       await makeRequest(input);
 
       const response = await makeRequest(input);
-      assertBadRequest(response, /email already taken/);
+      await assertBadRequest(response, /email already taken/);
     });
   });
 
