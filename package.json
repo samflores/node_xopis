@@ -19,6 +19,7 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^3.1.0",
     "@tsconfig/node22": "^22.0.0",
     "@types/jest": "^29.5.14",
     "@types/knex": "^0.15.2",
