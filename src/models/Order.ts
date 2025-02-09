@@ -2,6 +2,7 @@ import { Model } from 'objection';
 import User from './User';
 import OrderItem from './OrderItem';
 import Product from './Product';
+import Payment from './Payment';
 
 export enum OrderStatus {
   PaymentPending = 'payment_pending',
@@ -73,6 +74,14 @@ class Order extends Model {
             to: 'order_items.product_id',
           },
           to: 'products.id',
+        }
+      },
+      payment: {
+        relation: Model.HasOneRelation,
+        modelClass: Payment,
+        join: {
+          from: 'orders.id',
+          to: 'payments.order_id',
         }
       }
     };
