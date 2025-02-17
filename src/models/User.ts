@@ -1,4 +1,5 @@
 import { Model } from 'objection';
+import Order from './Order';
 
 class User extends Model {
   static tableName = 'users';
@@ -20,6 +21,19 @@ class User extends Model {
         created_at: { type: 'string', format: 'date-time' },
         updated_at: { type: 'string', format: 'date-time' },
       },
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      orders: {
+        relation: Model.HasManyRelation,
+        modelClass: Order,
+        join: {
+          from: 'users.id',
+          to: 'orders.customer_id',
+        }
+      }
     };
   }
 }

@@ -1,4 +1,5 @@
 import { Model } from 'objection';
+import Order from './Order';
 
 class Product extends Model {
   static tableName = 'products';
@@ -26,6 +27,23 @@ class Product extends Model {
         created_at: { type: 'string', format: 'date-time' },
         updated_at: { type: 'string', format: 'date-time' },
       },
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      orders: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Order,
+        join: {
+          from: 'products.id',
+          through: {
+            from: 'order_items.product_id',
+            to: 'order_items.order_id',
+          },
+          to: 'orders.id',
+        }
+      }
     };
   }
 }
