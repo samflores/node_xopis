@@ -54,7 +54,7 @@ Create an endpoint to handle order creation using Objection.js and Knex.js. You 
       {
         "product_id": 2,
         "quantity": 1,
-        discount: 0.99
+        "discount": 0.99
       }
     ]
   }
