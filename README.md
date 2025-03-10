@@ -23,12 +23,17 @@ Before setting up the project, ensure you have the following installed:
    npm install
    ```
 
-4. **Run the project in development mode**:
+4. **Database setup**:
+   ```sh
+   npm run db:setup
+   ```
+
+5. **Run the project in development mode**:
    ```sh
    npm run dev
    ```
 
-5. **Run the test suite**:
+6. **Run the test suite**:
    ```sh
    npm test
    ```
