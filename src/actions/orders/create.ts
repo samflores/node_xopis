@@ -1,10 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { transaction } from 'objection';
+import { transaction, ValidationError } from 'objection';
 import Order from '../../models/Order';
 import OrderItem from '../../models/OrderItem';
-import Product from '../../models/Product';
 import { OrderStatus } from '../../models/Order';
-import { ValidationError } from 'objection';
+import { calculateTotals, validateItems, ProductNotFoundError  } from '../../handlers/orderHandlers';
 
 interface Item {
   product_id: number;
@@ -24,39 +23,10 @@ export default async (
   }
 
   const trx = await transaction.start(Order.knex());
-
+  
   try {
-    const productIds = items.map(item => item.product_id);
-    const products = await Product.query(trx).findByIds(productIds);
-
-    const productMap = new Map(products.map(product => [product.id, product]));
-
-    let totalPaid = 0;
-    let totalDiscount = 0;
-
-    const orderItems = items.map(item => {
-      const product = productMap.get(item.product_id);
-
-      if (!product) {
-        return reply.code(400).send({ message: `Product with ID ${item.product_id} not found` });
-      }
-
-      const itemPaid = product.price * item.quantity;
-      const itemDiscount = item.discount ?? 0
-
-      totalPaid += itemPaid;
-      totalDiscount += itemDiscount;
-
-      return {
-        order_id: null,
-        product_id: item.product_id,
-        quantity: item.quantity,
-        tax: 0,
-        shipping: 0,
-        discount: itemDiscount,
-        paid: itemPaid,
-      };
-    });
+    const { productMap } = await validateItems(items, trx);
+    const { orderItems, totalPaid, totalDiscount } = calculateTotals(items, productMap);
 
     const order = await Order.query(trx).insert({
       customer_id,
@@ -72,7 +42,7 @@ export default async (
       order_id: order.id,
     }));
 
-    OrderItem.query(trx).insertGraph(orderItemsWithOrderId);
+    await OrderItem.query(trx).insertGraph(orderItemsWithOrderId);
     await trx.commit();
 
     return reply.code(201).send({
@@ -85,6 +55,10 @@ export default async (
     });
   } catch (error) {
     await trx.rollback();
+
+    if (error instanceof ProductNotFoundError) {
+      return reply.code(404).send({ message: error.message });
+    }
 
     if (error instanceof ValidationError) {
       return reply.code(400).send({
